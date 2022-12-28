@@ -1,0 +1,18 @@
+{
+  "name": "coquito",
+  "version": "0.0.1",
+  "description": "express based backend framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@alexmerced/simplerpc-server": "^1.0.1",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "graphql": "^16.6.0"
+  }
+}
