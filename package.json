@@ -1,12 +1,16 @@
 {
   "name": "coquito",
-  "version": "0.0.1",
-  "description": "express based backend framework",
+  "version": "0.0.11",
+  "description": "express based backend framework to quickly make rest, RPC and GraphQL APIs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "type": "module",
+  "exports": {
+    ".": "./framework/coquito.js",
+    "./scaffold":"./scaffold/scaffold.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
