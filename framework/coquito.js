@@ -10,12 +10,22 @@ class CoquitoApp {
     const port = config.port || "3333";
     const host = config.host || "localhost";
 
+    
     if (config.bodyparsers) {
       middleware.push(express.json());
       middleware.push(express.urlencoded({ extended: true }));
     }
 
+    if (config.static){
+      middleware.push(express.static(config.static))
+    }
+
     this.app = express();
+
+    if (config.prehook){
+      config.prehook(this.app)
+    }
+
     this.host = process.env.HOST || host;
     this.port = process.env.PORT || port;
     this.registerMiddleware(middleware);

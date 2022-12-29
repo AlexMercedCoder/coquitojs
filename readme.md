@@ -83,6 +83,33 @@ app.sample.bread.get(...)
 
 First argument being endpoints you want to routers for, and the second two arguments defining the target router these are subrouters for. (you need both arguments as they have different defaults when registering top level routers)
 
+**What if I need a static server**
+Add `static` property to the config object that contains a string with the name of the folder in your project root that should act as your static folder.
+
+```js
+const app = new CoquitoApp({
+  static: "public"
+})
+```
+
+**What if I need to configure the application object or define routes before middleware is registered?**
+
+Define a `prehook` property in config with a functions that takes the express app object as an argument and you can do any desired custom express code you want running before Coquito registers middleware and routers.
+
+```js
+import liquid from "liquid-express-views"
+
+function prehook(app){
+  // configure liquid view engine
+  liquid(app)
+}
+
+const app = new CoquitoApp({
+  prehook
+})
+
+```
+
 ## Multi File Setup
 
 What if you want to break this up into multiple files, how do we recommend doing it. Use the following file structure.
