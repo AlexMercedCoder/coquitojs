@@ -1,6 +1,6 @@
 {
   "name": "coquito",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "express based backend framework to quickly make rest, RPC and GraphQL APIs",
   "main": "index.js",
   "scripts": {

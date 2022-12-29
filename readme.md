@@ -4,6 +4,17 @@ CoquitoJS is backend web framework built on top of ExpressJS meant to help make 
 
 With a few simple configurations and scaffolds you can have RPC, REST and GraphQL APIs running in minutes.
 
+## QuickStart
+While you should still read the documentation below to understand how a lot of things are wired together, there is already made starter template that has the skeleton for RPC/GRAPHQL/Rest working out of the box with EJS templates.
+
+You can start a new project using the template repo feature on github here:
+[Template Repo](https://github.com/AlexMercedCoder/CoquitoJS-Template)
+
+Or you can use npx to generate a new project anywhere using degit.
+`npx degit AlexMercedCoder/CoquitoJS-Template`
+
+Just make sure to run `npm install` in the folder and give it a test run to see how it all works and read the notes in the readme and your off to the races with everything working from moment 1.
+
 ## Basic Use
 
 The simplest use is using Coquito to handle a lot of the boilerplate when writing express apps. Just pass what you need to the CoquitoApp constructor.
