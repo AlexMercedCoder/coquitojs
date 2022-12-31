@@ -212,6 +212,33 @@ getList: (payload, context) => {
 };
 ```
 
+**What if I need to register middleware to the GraphQL or RPC routers?**
+
+You can define a function for the `gqlhook` and `rpchook` properties which run after the router is created but before their route is defined. The signature of the function is.
+
+```
+(router) => {}
+```
+
+for example...
+
+```js
+import liquid from "liquid-express-views";
+
+function gqlhook(gqlrouter) {
+  gqlrouter.use(authMiddleware)
+}
+
+function rpchook(rpcrouter) {
+  rpcrouter.use(authMiddleware)
+}
+
+const app = new CoquitoApp({
+  gqlhook,
+  rpchook
+});
+```
+
 ## Multi File Setup
 
 What if you want to break this up into multiple files, how do we recommend doing it. Use the following file structure.

@@ -9,6 +9,9 @@ class CoquitoApp {
     const routers = config.routers || [];
     const port = config.port || "3333";
     const host = config.host || "localhost";
+    const emptyFunc = () => {}
+    const gqlhook = config.gqlhook || emptyFunc;
+    const rpchook = config.rpchook || emptyFunc;
 
     if (config.bodyparsers) {
       middleware.push(express.json());
@@ -33,8 +36,8 @@ class CoquitoApp {
       config.midhook(this.app);
     }
 
-    config.graphql ? this.registerGraphql(config.graphql) : null;
-    config.rpc ? this.registerRPC(config.rpc) : null;
+    config.graphql ? this.registerGraphql(config.graphql, gqlhook) : null;
+    config.rpc ? this.registerRPC(config.rpc, rpchook) : null;
     this.routers(routers);
   }
 
@@ -56,10 +59,12 @@ class CoquitoApp {
     }
   }
 
-  registerGraphql({ rootValue, schema }) {
+  registerGraphql({ rootValue, schema }, gqlhook = () => {}) {
     this.graphql = express.Router();
 
     const compiledSchema = buildSchema(schema);
+
+    gqlhook(this.graphql);
 
     this.graphql.all("*", async (req, res) => {
       try {
@@ -78,9 +83,11 @@ class CoquitoApp {
     this.app.use("/graphql", this.graphql);
   }
 
-  registerRPC({ actions, context }) {
+  registerRPC({ actions, context }, rpchook = () => {}) {
     this.rpc = express.Router();
     this.rpchandler = createHandler({ actions, context });
+
+    rpchook(this.rpc);
 
     this.rpc.all("*", async (req, res) => {
       try {
