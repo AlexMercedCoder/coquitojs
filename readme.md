@@ -37,6 +37,7 @@ But if you want to pick and choose the parts to scaffold you can start with an e
   "graphql": false,
   "rpc": false,
   "routers": [],
+  "models": ["Dog", "Cat"],
   "bodyparsers": false,
   "views": "hamlet",
   "port": 4444,
@@ -56,15 +57,16 @@ But if you want to pick and choose the parts to scaffold you can start with an e
 
 - graphql (`boolean`): whether to scaffold graphql API
 - rpc (`boolean`): whether to scaffold SimpleRPC API
-- routers (`Array<String>`): Array of routers to create
+- routers (`Array<String>`): Array of routers to create, this should be for non-model routers
+- models (`Array<String>`): Array of models, will generate a model file and rest router for each model.
 - bodyparsers (`boolean`): whether to register json/urlencoded parsing middleware.
 - views (`String`): Whether to include server side template and if so which templating language (`["ejs", "pug", "hbs", "liquid", "nunjucks", "mustache","twig","hamlet"]`). If none needed just mark it false.
-- port: port to serve app on (PORT env variable always takes precedence)
-- host: host to serve app on (HOST env variable always takes precendence)
-- static: name of folder to serve static assets, mark false if not needed
-- package: helps populate package.json with name, description, author, email, repo
-- db: will scaffold specified database from the following options - ["mongo", "sql-pg", "sql-mysql2", "sql-sqlite3", "sql-mariadb", "sql-oracledb", "sql-MSSQL"]
-- auth: will scaffold auth Model, libraries and basic function implementations, values include ["mongo", "sql", false]
+- port (`String`): port to serve app on (PORT env variable always takes precedence)
+- host (`String`): host to serve app on (HOST env variable always takes precendence)
+- static (`String` or `boolean`): name of folder to serve static assets, mark false if not needed
+- package (`object`): helps populate package.json with name, description, author, email, repo
+- db (`String` or `boolean`): will scaffold specified database from the following options - ["mongo", "sql-pg", "sql-mysql2", "sql-sqlite3", "sql-mariadb", "sql-oracledb", "sql-MSSQL"]
+- auth (`String` or `boolean`): will scaffold auth Model, libraries and basic function implementations, values include ["mongo", "sql", false]
 
 Then in the same folder run the following command and your project will be scaffolded.
 
