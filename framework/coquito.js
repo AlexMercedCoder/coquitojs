@@ -29,6 +29,11 @@ class CoquitoApp {
     this.host = process.env.HOST || host;
     this.port = process.env.PORT || port;
     this.registerMiddleware(middleware);
+
+    if (config.midhook){
+      config.midhook(this.app)
+    }
+
     config.graphql ? this.registerGraphql(config.graphql) : null;
     config.rpc ? this.registerRPC(config.rpc) : null;
     this.routers(routers);

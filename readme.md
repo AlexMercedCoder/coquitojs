@@ -159,6 +159,8 @@ const app = new CoquitoApp({
 
 Define a `prehook` property in config with a functions that takes the express app object as an argument and you can do any desired custom express code you want running before Coquito registers middleware and routers.
 
+There is also a `midhook` that can be defined similar to the prehook that runs after registering middleware but before registering graphql/rpc/routers.
+
 ```js
 import liquid from "liquid-express-views"
 
