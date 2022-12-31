@@ -5,6 +5,7 @@ CoquitoJS is backend web framework built on top of ExpressJS meant to help make 
 With a few simple configurations and scaffolds you can have RPC, REST and GraphQL APIs running in minutes.
 
 ## QuickStart
+
 While you should still read the documentation below to understand how a lot of things are wired together, there is already made starter template that has the skeleton for RPC/GRAPHQL/Rest working out of the box with EJS templates.
 
 You can start a new project using the template repo feature on github here:
@@ -33,14 +34,22 @@ But if you want to pick and choose the parts to scaffold you can start with an e
 
 ```json
 {
-    "graphql": false,
-    "rpc": false,
-    "routers": [],
-    "bodyparsers": false,
-    "views": "hamlet",
-    "port": 4444,
-    "host": "0.0.0.0",
-    "static": false
+  "graphql": false,
+  "rpc": false,
+  "routers": [],
+  "bodyparsers": false,
+  "views": "hamlet",
+  "port": 4444,
+  "host": "0.0.0.0",
+  "static": false,
+  "package": {
+    "name": "my-app",
+    "description": "this is my-app",
+    "author": "Alex Merced",
+    "email": "alexmerced@alexmerced.dev",
+    "repo": "http://github.com/..."
+  },
+  "db": "sql-sqlite3"
 }
 ```
 
@@ -52,6 +61,8 @@ But if you want to pick and choose the parts to scaffold you can start with an e
 - port: port to serve app on (PORT env variable always takes precedence)
 - host: host to serve app on (HOST env variable always takes precendence)
 - static: name of folder to serve static assets, mark false if not needed
+- package: helps populate package.json with name, description, author, email, repo
+- db: will scaffold specified database from the following options - ["mongo", "sql-pg", "sql-mysql2", "sql-sqlite3", "sql-mariadb", "sql-oracledb", "sql-MSSQL"]
 
 Then in the same folder run the following command and your project will be scaffolded.
 
@@ -151,8 +162,8 @@ Add `static` property to the config object that contains a string with the name 
 
 ```js
 const app = new CoquitoApp({
-  static: "public"
-})
+  static: "public",
+});
 ```
 
 **What if I need to configure the application object or define routes before middleware is registered?**
@@ -162,17 +173,16 @@ Define a `prehook` property in config with a functions that takes the express ap
 There is also a `midhook` that can be defined similar to the prehook that runs after registering middleware but before registering graphql/rpc/routers.
 
 ```js
-import liquid from "liquid-express-views"
+import liquid from "liquid-express-views";
 
-function prehook(app){
+function prehook(app) {
   // configure liquid view engine
-  liquid(app)
+  liquid(app);
 }
 
 const app = new CoquitoApp({
-  prehook
-})
-
+  prehook,
+});
 ```
 
 ## Multi File Setup
@@ -347,32 +357,37 @@ Now setting up a SimpleRPC API with coquito is simple as this file structure:
 ```
 
 actions.js
+
 ```js
 const actions = {
-    getList: (payload, context) => {
-        console.log(context)
-        return [1,2,3,4,5]
-    },
+  getList: (payload, context) => {
+    console.log(context);
+    return [1, 2, 3, 4, 5];
+  },
 
-    addToList: (payload, context) => {
-        console.log(context)
-        return [1,2,3,4,5, payload.num]
-    }
-}
+  addToList: (payload, context) => {
+    console.log(context);
+    return [1, 2, 3, 4, 5, payload.num];
+  },
+};
 
-export default actions
+export default actions;
 ```
+
 Here is where we define all our functions that can be called from our client side dispatch calls.
 
 context.js
-```js
-const context = {}
 
-export default context
+```js
+const context = {};
+
+export default context;
 ```
+
 Context is an object with any additional data you'd want accessible to your actions such as app wide settings or information.
 
 server.js
+
 ```js
 import CoquitoApp from "coquito";
 import actions from "./actions.js";
@@ -391,7 +406,7 @@ const app = new CoquitoApp({
   host: "localhost",
   rpc: {
     actions,
-    context
+    context,
   },
 });
 
@@ -403,17 +418,19 @@ Once that is all setup you can make requests either using the simpleRPC client w
 
 ```json
 {
-    "type": "actionName",
-    "payload":{
-        "arg1": 1,
-        "arg2": "whatever"
-    }
+  "type": "actionName",
+  "payload": {
+    "arg1": 1,
+    "arg2": "whatever"
+  }
 }
 ```
 
 ### Mixing and Matching
+
 You can have all these properties defined, so having a GraphQL, RPC and Rest API side by side is all of matter of the properties you pass to Coquito.
 
 ## Coming Soon
+
 - Scaffold Methods for Generating Scaffolding Scripts
 - CLI for incremental scaffolding
