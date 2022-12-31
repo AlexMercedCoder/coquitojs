@@ -15,6 +15,58 @@ Or you can use npx to generate a new project anywhere using degit.
 
 Just make sure to run `npm install` in the folder and give it a test run to see how it all works and read the notes in the readme and your off to the races with everything working from moment 1.
 
+## CLI & Scaffolding
+
+To install the CLI
+
+```
+npm install -g coquito-cli
+```
+
+You can create a new project with the basic template with the following command.
+
+```
+coquito newbasicproject folderName
+```
+
+But if you want to pick and choose the parts to scaffold you can start with an empty directory and create a `scaffold.js` and define the following properties.
+
+```json
+{
+    "graphql": false,
+    "rpc": false,
+    "routers": [],
+    "bodyparsers": false,
+    "views": "hamlet",
+    "port": 4444,
+    "host": "0.0.0.0",
+    "static": false
+}
+```
+
+- graphql (`boolean`): whether to scaffold graphql API
+- rpc (`boolean`): whether to scaffold SimpleRPC API
+- routers (`Array<String>`): Array of routers to create
+- bodyparsers (`boolean`): whether to register json/urlencoded parsing middleware.
+- views (`String`): Whether to include server side template and if so which templating language (`["ejs", "pug", "hbs", "liquid", "nunjucks", "mustache","twig","hamlet"]`). If none needed just mark it false.
+- port: port to serve app on (PORT env variable always takes precedence)
+- host: host to serve app on (HOST env variable always takes precendence)
+- static: name of folder to serve static assets, mark false if not needed
+
+Then in the same folder run the following command and your project will be scaffolded.
+
+```
+coquito scaffold
+```
+
+**Additional Scaffolding Commands**
+
+- `coquito add-mongo` scaffold usage of mongo database
+- `coquito add-mongo-model modelName` scaffolds model of model by given name
+- `coquito add-sql dbtype` scaffolds usage of SQL database of specified type with sequelize. Options: `["pg", "mysql2", "sqlite3", "mariadb", "oracledb", "MSSQL"]`
+- `coquito add-sql-model modelName` scaffolds model of model by given name
+- `coquito add-rest-routes name` adds controller file with Index, Show, Update, Create and Delete routes defined under given name.
+
 ## Basic Use
 
 The simplest use is using Coquito to handle a lot of the boilerplate when writing express apps. Just pass what you need to the CoquitoApp constructor.
