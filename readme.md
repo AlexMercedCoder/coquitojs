@@ -49,7 +49,8 @@ But if you want to pick and choose the parts to scaffold you can start with an e
     "email": "alexmerced@alexmerced.dev",
     "repo": "http://github.com/..."
   },
-  "db": "sql-sqlite3"
+  "db": "sql-sqlite3",
+  "auth": "sql"
 }
 ```
 
@@ -63,6 +64,7 @@ But if you want to pick and choose the parts to scaffold you can start with an e
 - static: name of folder to serve static assets, mark false if not needed
 - package: helps populate package.json with name, description, author, email, repo
 - db: will scaffold specified database from the following options - ["mongo", "sql-pg", "sql-mysql2", "sql-sqlite3", "sql-mariadb", "sql-oracledb", "sql-MSSQL"]
+- auth: will scaffold auth Model, libraries and basic function implementations, values include ["mongo", "sql", false]
 
 Then in the same folder run the following command and your project will be scaffolded.
 
@@ -77,6 +79,8 @@ coquito scaffold
 - `coquito add-sql dbtype` scaffolds usage of SQL database of specified type with sequelize. Options: `["pg", "mysql2", "sqlite3", "mariadb", "oracledb", "MSSQL"]`
 - `coquito add-sql-model modelName` scaffolds model of model by given name
 - `coquito add-rest-routes name` adds controller file with Index, Show, Update, Create and Delete routes defined under given name.
+- `coquito add-auth-mongo` adds Model, libraries, and basic function implementations for building auth on mongo
+- `coquito add-auth-sql` adds Model, libraries, and basic function implementations for building auth on mongo
 
 ## Basic Use
 
@@ -183,6 +187,29 @@ function prehook(app) {
 const app = new CoquitoApp({
   prehook,
 });
+```
+
+**Can I access the request and response object from my GraphQL/RPC functions**
+Yes, they will be available as context.req and context.res in either paradigm. You can use middleware to store anything in the request or response objects to make it available to all rest/graphql/rpc actions.
+
+graphql
+
+```js
+Resolver(parent, args, context, info) {
+    console.log(context.req)
+    console.log(context.res)
+    return "something
+  }
+```
+
+SimpleRPC
+
+```js
+getList: (payload, context) => {
+  console.log(context.req);
+  console.log(context.res);
+  return [1, 2, 3, 4, 5];
+};
 ```
 
 ## Multi File Setup

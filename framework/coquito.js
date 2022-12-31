@@ -10,28 +10,27 @@ class CoquitoApp {
     const port = config.port || "3333";
     const host = config.host || "localhost";
 
-    
     if (config.bodyparsers) {
       middleware.push(express.json());
       middleware.push(express.urlencoded({ extended: true }));
     }
 
-    if (config.static){
-      middleware.push(express.static(config.static))
+    if (config.static) {
+      middleware.push(express.static(config.static));
     }
 
     this.app = express();
 
-    if (config.prehook){
-      config.prehook(this.app)
+    if (config.prehook) {
+      config.prehook(this.app);
     }
 
     this.host = process.env.HOST || host;
     this.port = process.env.PORT || port;
     this.registerMiddleware(middleware);
 
-    if (config.midhook){
-      config.midhook(this.app)
+    if (config.midhook) {
+      config.midhook(this.app);
     }
 
     config.graphql ? this.registerGraphql(config.graphql) : null;
@@ -68,6 +67,7 @@ class CoquitoApp {
           rootValue,
           schema: compiledSchema,
           source: req.body.query,
+          contextValue: { req, res },
         });
         res.json(result);
       } catch (error) {
@@ -84,6 +84,8 @@ class CoquitoApp {
 
     this.rpc.all("*", async (req, res) => {
       try {
+        context.req = req;
+        context.res = res;
         const result = await this.rpchandler(req.body);
         res.json(result);
       } catch (error) {
