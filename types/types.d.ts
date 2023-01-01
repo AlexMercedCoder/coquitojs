@@ -1,3 +1,7 @@
+import type {Router, Application, RequestHandler} from "express"
+
+type Routable = Router|Application
+
 interface CoquitoAppConfig {
   port?: Number;
   bodyparsers?: Boolean;
@@ -12,21 +16,25 @@ interface CoquitoAppConfig {
   rpc?: { actions: Object; context: Object };
 }
 
+interface Routers {
+  [key: string]: Router
+}
+
 declare class CoquitoApp {
   constructor(config: CoquitoAppConfig);
 
-  readonly app: any;
+  readonly app: Application;
   host: String;
   port: Number;
-  r: Object;
+  r: Routers;
 
-  registerMiddleware(middleware: Array<Function>):void;
+  registerMiddleware(middleware: Array<RequestHandler>):void;
 
   registerRPC(options: Object, hook?: Function):void;
 
   registerGraphql(options: Object, hook?: Function):void;
 
-  routers(list: Array<String>, target: any, root: any):void;
+  routers(list: Array<String>, target: Routable, root: Routable):void;
 
   listen():void;
 }
