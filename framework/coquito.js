@@ -2,7 +2,6 @@ import express from "express";
 import { log } from "mercedlogger";
 import { graphql, buildSchema } from "graphql";
 import createHandler from "@alexmerced/simplerpc-server";
-
 class CoquitoApp {
   constructor(config = {}) {
     const middleware = config.middleware || [];
@@ -28,6 +27,8 @@ class CoquitoApp {
       config.prehook(this.app);
     }
 
+    this.r = {}
+
     this.host = process.env.HOST || host;
     this.port = process.env.PORT || port;
     this.registerMiddleware(middleware);
@@ -41,7 +42,7 @@ class CoquitoApp {
     this.routers(routers);
   }
 
-  routers(list = [], target = this.app, root = this) {
+  routers(list = [], target = this.app, root = this.r) {
     for (let item of list) {
       const parts = item.split("/");
       if (parts.length < 2 || parts.length > 2) {
@@ -60,13 +61,13 @@ class CoquitoApp {
   }
 
   registerGraphql({ rootValue, schema }, gqlhook = () => {}) {
-    this.graphql = express.Router();
+    this.r.graphql = express.Router();
 
     const compiledSchema = buildSchema(schema);
 
-    gqlhook(this.graphql);
+    gqlhook(this.r.graphql);
 
-    this.graphql.all("*", async (req, res) => {
+    this.r.graphql.all("*", async (req, res) => {
       try {
         const result = await graphql({
           rootValue,
@@ -80,16 +81,16 @@ class CoquitoApp {
       }
     });
 
-    this.app.use("/graphql", this.graphql);
+    this.app.use("/graphql", this.r.graphql);
   }
 
   registerRPC({ actions, context }, rpchook = () => {}) {
-    this.rpc = express.Router();
+    this.r.rpc = express.Router();
     this.rpchandler = createHandler({ actions, context });
 
-    rpchook(this.rpc);
+    rpchook(this.r.rpc);
 
-    this.rpc.all("*", async (req, res) => {
+    this.r.rpc.all("*", async (req, res) => {
       try {
         context.req = req;
         context.res = res;
@@ -100,7 +101,7 @@ class CoquitoApp {
       }
     });
 
-    this.app.use("/rpc", this.rpc);
+    this.app.use("/rpc", this.r.rpc);
   }
 
   listen() {

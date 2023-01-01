@@ -114,13 +114,16 @@ const app = new CoquitoApp({
   middleware: [cors(), morgan("dev")],
 });
 
+// destructure routers from app.r
+const {sample, example} = app.r
+
 // sample route for sample router
-app.sample.get("/", (req, res) => {
+sample.get("/", (req, res) => {
   res.send("I see the samples");
 });
 
 // sample route for example router
-app.example.get("/", (req, res) => {
+example.get("/", (req, res) => {
   res.send("I see the examples");
 });
 
@@ -164,13 +167,13 @@ You can also register subrouters similarly.
 app.routers([
     "/cheese",
     "/bread"
-], app.sample, app.sample)
+], app.r.sample, app.r.sample)
 
 // "/sample/cheese"
-app.sample.cheese.get(...)
+app.r.sample.cheese.get(...)
 
 // "/sample/bread"
-app.sample.bread.get(...)
+app.r.sample.bread.get(...)
 ```
 
 First argument being endpoints you want to routers for, and the second two arguments defining the target router these are subrouters for. (you need both arguments as they have different defaults when registering top level routers)
