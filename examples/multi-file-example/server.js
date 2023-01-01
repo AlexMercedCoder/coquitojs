@@ -13,7 +13,7 @@ const app = new CoquitoApp({
     ]
 })
 
-sampleRoutes(app.sample)
-exampleRoutes(app.example)
+sampleRoutes(app.r.sample)
+exampleRoutes(app.r.example)
 
 app.listen()

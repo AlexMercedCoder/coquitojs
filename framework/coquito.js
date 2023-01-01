@@ -50,7 +50,7 @@ class CoquitoApp {
       }
       const path = parts[1];
       root[path] = express.Router();
-      target.use(parts.slice(0, 2).join("/"), this[path]);
+      target.use(parts.slice(0, 2).join("/"), root[path]);
     }
   }
 
