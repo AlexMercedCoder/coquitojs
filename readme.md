@@ -6,6 +6,8 @@ With a few simple configurations and scaffolds you can have RPC, REST and GraphQ
 
 ## QuickStart
 
+The best way to start a new project is the CLI documented in the next section, but this section shows you a quick way to generate a standard template without the CLI.
+
 While you should still read the documentation below to understand how a lot of things are wired together, there is already made starter template that has the skeleton for RPC/GRAPHQL/Rest working out of the box with EJS templates.
 
 You can start a new project using the template repo feature on github here:
@@ -17,6 +19,8 @@ Or you can use npx to generate a new project anywhere using degit.
 Just make sure to run `npm install` in the folder and give it a test run to see how it all works and read the notes in the readme and your off to the races with everything working from moment 1.
 
 ## CLI & Scaffolding
+
+[CLI DOCUMENTATION](https://www.npmjs.com/package/coquito-cli)
 
 To install the CLI
 
@@ -34,39 +38,47 @@ But if you want to pick and choose the parts to scaffold you can start with an e
 
 ```json
 {
-  "graphql": false,
-  "rpc": false,
-  "routers": [],
-  "models": ["Dog", "Cat"],
-  "bodyparsers": false,
-  "views": "hamlet",
-  "port": 4444,
-  "host": "0.0.0.0",
-  "static": false,
-  "package": {
-    "name": "my-app",
-    "description": "this is my-app",
-    "author": "Alex Merced",
-    "email": "alexmerced@alexmerced.dev",
-    "repo": "http://github.com/..."
-  },
-  "db": "sql-sqlite3",
-  "auth": "sql"
-}
+    "graphql": true,
+    "rpc": true,
+    "routers": [],
+    "models": ["Dog", "Cat"],
+    "bodyparsers": true,
+    "views": "ejs",
+    "port": 4444,
+    "host": "0.0.0.0",
+    "static": "public",
+    "package": {
+      "name": "my-app",
+      "description": "this is my-app",
+      "author": "Alex Merced",
+      "email": "alexmerced@alexmerced.dev",
+      "repo": "http://github.com/..."
+    },
+    "db": "sql-sqlite3",
+    "dburi":"sqlite:database.db",
+    "logging": true,
+    "methodOverride": true,
+    "auth": "sql"
+  }
 ```
+
+The Generated Project will have a readme.md which will have a lot of useful for reference for the scaffolded project.
 
 - graphql (`boolean`): whether to scaffold graphql API
 - rpc (`boolean`): whether to scaffold SimpleRPC API
 - routers (`Array<String>`): Array of routers to create, this should be for non-model routers
 - models (`Array<String>`): Array of models, will generate a model file and rest router for each model.
-- bodyparsers (`boolean`): whether to register json/urlencoded parsing middleware.
+- bodyparsers (`Boolean`): whether to register json/urlencoded parsing middleware.
 - views (`String`): Whether to include server side template and if so which templating language (`["ejs", "pug", "hbs", "liquid", "nunjucks", "mustache","twig","hamlet"]`). If none needed just mark it false.
 - port (`String`): port to serve app on (PORT env variable always takes precedence)
 - host (`String`): host to serve app on (HOST env variable always takes precendence)
-- static (`String` or `boolean`): name of folder to serve static assets, mark false if not needed
+- static (`String` or `boolean`): name of folder to serve static assets, mark false if not needed, if you enable graphql or rpc, a clients.js with premade graphql/rpc client will be added in this folder.
 - package (`object`): helps populate package.json with name, description, author, email, repo
 - db (`String` or `boolean`): will scaffold specified database from the following options - ["mongo", "sql-pg", "sql-mysql2", "sql-sqlite3", "sql-mariadb", "sql-oracledb", "sql-MSSQL"]
-- auth (`String` or `boolean`): will scaffold auth Model, libraries and basic function implementations, values include ["mongo", "sql", false]
+- auth (`String` or `boolean`): will scaffold auth Model, libraries and basic function implementations, values include ["mongo", "sql", false]. This will also add cookie parsing and sessions middleware.
+- dburi (`String`): initial value of the DATABASE_URL variable
+- logging (`Boolean`): If true will add morgan logging middleware
+- methodOverride (`Boolean`): If true will method override middleware.
 
 Then in the same folder run the following command and your project will be scaffolded.
 
@@ -84,7 +96,7 @@ coquito scaffold
 - `coquito add-auth-mongo` adds Model, libraries, and basic function implementations for building auth on mongo
 - `coquito add-auth-sql` adds Model, libraries, and basic function implementations for building auth on mongo
 
-## Basic Use
+## Basic Usage of Coquito Library
 
 The simplest use is using Coquito to handle a lot of the boilerplate when writing express apps. Just pass what you need to the CoquitoApp constructor.
 
