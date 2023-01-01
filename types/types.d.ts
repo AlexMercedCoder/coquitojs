@@ -13,9 +13,9 @@ interface CoquitoAppConfig {
 }
 
 declare class CoquitoApp {
-  contructor(config: CoquitoAppConfig);
+  constructor(config: CoquitoAppConfig);
 
-  readonly app: Any;
+  readonly app: any;
   host: String;
   port: Number;
   r: Object;
