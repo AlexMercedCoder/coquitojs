@@ -25,6 +25,10 @@ declare class CoquitoApp {
   registerRPC(options: Object, hook?: Function);
 
   registerGraphql(options: Object, hook?: Function);
+
+  routers(list: Array<String>, target: any, root: any);
+
+  listen();
 }
 
 export = CoquitoApp;
