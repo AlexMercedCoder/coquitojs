@@ -1,11 +1,11 @@
 {
   "name": "coquito",
-  "version": "0.0.24",
+  "version": "0.0.25",
   "description": "express based backend framework to quickly make rest, RPC and GraphQL APIs",
   "main": "./framework/coquito.js",
   "types": "./types/types.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    
   },
   "type": "module",
   "exports": {

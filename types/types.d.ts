@@ -20,15 +20,15 @@ declare class CoquitoApp {
   port: Number;
   r: Object;
 
-  registerMiddleware(middleware: Array<Function>);
+  registerMiddleware(middleware: Array<Function>):void;
 
-  registerRPC(options: Object, hook?: Function);
+  registerRPC(options: Object, hook?: Function):void;
 
-  registerGraphql(options: Object, hook?: Function);
+  registerGraphql(options: Object, hook?: Function):void;
 
-  routers(list: Array<String>, target: any, root: any);
+  routers(list: Array<String>, target: any, root: any):void;
 
-  listen();
+  listen():void;
 }
 
 export = CoquitoApp;
