@@ -1,12 +1,18 @@
 import type { Router, Application, RequestHandler } from "express";
+import type {ActionCollection, ActionContext} from "@alexmerced/simplerpc-server"
 
-interface FlexibleObjectShape {
+export interface FlexibleObjectShape {
   [key: string]: any;
 }
 
-type Routable = Router | Application;
-type RouterHook = (router: Routable) => void;
-interface CoquitoAppConfig {
+export interface RPCConfig { 
+  actions: ActionCollection; 
+  context: ActionContext 
+}
+
+export type Routable = Router | Application;
+export type RouterHook = (router: Routable) => void;
+export interface CoquitoAppConfig {
   port?: Number;
   bodyparsers?: Boolean;
   host?: String;
@@ -17,10 +23,10 @@ interface CoquitoAppConfig {
   gqlhook?: RouterHook;
   rpchook?: RouterHook;
   graphql?: { rootValue: FlexibleObjectShape; schema: string };
-  rpc?: { actions: Object; context: Object };
+  rpc?: RPCConfig;
 }
 
-interface Routers {
+export interface Routers {
   [key: string]: Router;
 }
 
@@ -34,11 +40,11 @@ declare class CoquitoApp {
 
   registerMiddleware(middleware: Array<RequestHandler>): void;
 
-  registerRPC(options: Object, hook?: Function): void;
+  registerRPC(RPCConfig, hook?: RouterHook): void;
 
   registerGraphql(
     options: { rootValue: FlexibleObjectShape; schema: string },
-    hook?: Function
+    hook?: RouterHook
   ): void;
 
   routers(list: Array<String>, target: Routable, root: Routable): void;
@@ -46,4 +52,4 @@ declare class CoquitoApp {
   listen(): void;
 }
 
-export = CoquitoApp;
+export default CoquitoApp;
