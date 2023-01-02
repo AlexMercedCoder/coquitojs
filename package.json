@@ -1,6 +1,6 @@
 {
   "name": "coquito",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "description": "express based backend framework to quickly make rest, RPC and GraphQL APIs",
   "main": "./framework/coquito.js",
   "types": "./types/types.d.ts",
@@ -21,6 +21,7 @@
     "mercedlogger": "^1.0.1"
   },
   "devDependencies": {
-    "@types/express": "^4.17.15"
+    "@types/express": "^4.17.15",
+    "@types/graphql": "^14.5.0"
   }
 }
