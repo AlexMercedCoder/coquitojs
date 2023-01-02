@@ -1,6 +1,6 @@
 {
   "name": "coquito",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "description": "express based backend framework to quickly make rest, RPC and GraphQL APIs",
   "main": "./framework/coquito.js",
   "types": "./types/types.d.ts",
@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@alexmerced/simplerpc-server": "^1.0.1",
+    "@alexmerced/simplerpc-server": "^1.1.2",
     "ejs": "^3.1.8",
     "express": "^4.18.2",
     "graphql": "^16.6.0",
