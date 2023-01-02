@@ -1,5 +1,8 @@
 import type { Router, Application, RequestHandler } from "express";
-import type { GraphQLArgs } from "graphql";
+
+interface FlexibleObjectShape {
+  [key: string]: any;
+}
 
 type Routable = Router | Application;
 type RouterHook = (router: Routable) => void;
@@ -13,7 +16,7 @@ interface CoquitoAppConfig {
   midhook?: RouterHook;
   gqlhook?: RouterHook;
   rpchook?: RouterHook;
-  graphql?: GraphQLArgs;
+  graphql?: { rootValue: FlexibleObjectShape; schema: string };
   rpc?: { actions: Object; context: Object };
 }
 
@@ -33,7 +36,10 @@ declare class CoquitoApp {
 
   registerRPC(options: Object, hook?: Function): void;
 
-  registerGraphql(options: GraphQLArgs, hook?: Function): void;
+  registerGraphql(
+    options: { rootValue: FlexibleObjectShape; schema: string },
+    hook?: Function
+  ): void;
 
   routers(list: Array<String>, target: Routable, root: Routable): void;
 
