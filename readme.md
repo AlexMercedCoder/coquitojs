@@ -13,8 +13,13 @@ While you should still read the documentation below to understand how a lot of t
 You can start a new project using the template repo feature on github here:
 [Template Repo](https://github.com/AlexMercedCoder/CoquitoJS-Template)
 
+[Typescript Template](https://github.com/AlexMercedCoder/Coquito-TS-Template)
+
 Or you can use npx to generate a new project anywhere using degit.
+
 `npx degit AlexMercedCoder/CoquitoJS-Template`
+
+`npx degit AlexMercedCoder/Coquito-TS-Template`
 
 Just make sure to run `npm install` in the folder and give it a test run to see how it all works and read the notes in the readme and your off to the races with everything working from moment 1.
 
@@ -32,6 +37,12 @@ You can create a new project with the basic template with the following command.
 
 ```
 coquito newbasicproject folderName
+```
+
+Or with the Typescript Template with this command.
+
+```
+coquito newtsproject folderName
 ```
 
 But if you want to pick and choose the parts to scaffold you can start with an empty directory and create a `scaffold.js` and define the following properties.
